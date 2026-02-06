@@ -143,11 +143,10 @@
             <p>{{problem._id}}</p></li>
           <li>
             <p>{{$t('m.Time_Limit')}}</p>
-            <p>{{problem.time_limit}}MS</p></li>
+            <p>{{problemTimeLimit}}MS</p></li>
           <li>
             <p>{{$t('m.Memory_Limit')}}</p>
             <p>{{problem.memory_limit}}MB</p></li>
-          <li>
           <li>
             <p>{{$t('m.IOMode')}}</p>
             <p>{{problem.io_mode.io_mode}}</p>
@@ -489,6 +488,11 @@
         } else {
           return {name: 'submission-list', query: {problemID: this.problemID}}
         }
+      },
+      problemTimeLimit () {
+        let coefficient = {'Python3': 2, 'Java': 1, 'C++': 0.5}
+        let coef = coefficient[this.language] || 1
+        return Math.floor((this.problem.time_limit || 0) * coef)
       }
     },
     beforeRouteLeave (to, from, next) {
